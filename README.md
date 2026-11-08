@@ -46,7 +46,7 @@ To re-run only the anonymisation after a full run:
 | Join failures | 3 of 729,270 requests with coordinates (0.0004%), against a 0.1% threshold |
 | Subsample | 9,903 requests within 1 arc-minute of the Saxonsea centroid |
 | Wind | 4,499 requests (45.4%) have a reading. The rest are kept, with the reason for the gap |
-| Anonymisation | 7,848 records published and 2,055 queued for review |
+| Anonymisation | 7,831 records published and 2,072 queued for review |
 
 ## Read next
 

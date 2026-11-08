@@ -136,6 +136,21 @@ def test_sensitive_cause_code_also_triggers_review(anonymisation_config):
     assert an.anonymise(records, _hourly(), anonymisation_config).anonymised.empty
 
 
+def test_maintenance_cause_is_not_mistaken_for_tenancy(anonymisation_config):
+    # "Maintenance" contains "tenan"; the pattern must match the word, not the substring.
+    records = _records(10, code="Meter Replacement Project", cause="Maintenance")
+    assert len(an.anonymise(records, _hourly(), anonymisation_config).anonymised) == 10
+
+
+def test_council_housing_code_group_goes_to_review_even_without_department(anonymisation_config):
+    records = _records(10, code="Plumbing")
+    records["code_group"] = "HOUSING - EXISTING"
+    records["department"] = None
+    result = an.anonymise(records, _hourly(), anonymisation_config)
+    assert result.anonymised.empty
+    assert set(result.review_queue[an.REVIEW_REASON_COLUMN]) == {"sensitive:property_or_tenancy"}
+
+
 def test_small_groups_go_to_review(anonymisation_config):
     records = pd.concat([_records(5), _records(4, code="Burst Pipe")], ignore_index=True)
     result = an.anonymise(records, _hourly(), anonymisation_config)

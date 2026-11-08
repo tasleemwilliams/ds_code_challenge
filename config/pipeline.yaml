@@ -78,4 +78,4 @@ anonymisation:
   sensitive_patterns:
     financial_status: "indigent|rebate|senior citizen|debt|dunning|arrears|insolven|non-payment|handover|legal action|refund|account|billing|invoice|financial|reconnect|disconnect"
     alleged_wrongdoing: "tamper|revenue protection|bypass|suspect illegal|by.?law|contravention|staff complaint"
-    property_or_tenancy: "tenan|deeds|acquisition of land|overgrown erven"
+    property_or_tenancy: "\\btenan|deeds|acquisition of land|overgrown erven|housing"
