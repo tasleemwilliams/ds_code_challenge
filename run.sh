@@ -18,9 +18,22 @@ find_python() {
   return 1
 }
 
-if [ ! -x .venv/bin/python ]; then
+# A venv puts its interpreter under bin/ on Linux and macOS and under Scripts/ on
+# Windows (Git Bash). Use whichever exists after creating it.
+venv_python() {
+  if [ -x .venv/bin/python ]; then
+    echo .venv/bin/python
+  elif [ -x .venv/Scripts/python.exe ]; then
+    echo .venv/Scripts/python.exe
+  else
+    return 1
+  fi
+}
+
+if ! venv_python >/dev/null; then
   "$(find_python)" -m venv .venv
 fi
-.venv/bin/python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+PY="$(venv_python)"
+"$PY" -m pip install --quiet --disable-pip-version-check -r requirements.txt
 
-exec .venv/bin/python -m cct_pipeline "$@"
+exec "$PY" -m cct_pipeline "$@"

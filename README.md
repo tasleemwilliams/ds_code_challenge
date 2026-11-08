@@ -15,6 +15,14 @@ You need Python 3.9 or newer and internet access. This one command creates a vir
 
 From an empty cache, it took 70 to 90 seconds in testing, mostly downloading, and peaked at about 650 MB of memory. It exits with a non-zero code if any validation fails.
 
+**On Windows**, run `./run.sh` from WSL or Git Bash. Without either, these three PowerShell commands do the same thing (the virtual environment's interpreter is then `.venv\Scripts\python.exe` wherever this README says `.venv/bin/python`):
+
+```powershell
+py -3 -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe -m cct_pipeline
+```
+
 ## What it produces
 
 Everything goes to `output/`, which git ignores because it includes resident-level data.
