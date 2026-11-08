@@ -20,7 +20,7 @@ On Friday I gave the agent very little direction, on purpose: the first iteratio
 
 **What the first pass bought, and what it did not.** The unsupervised build reached failure modes that a few hours of human work would not: it joins S3 SELECT records split across stream events and rejects a stream with no End event, it treats an HTTP 200 error page as a failed download, it finds the wind station's columns by header rather than position, and it guards the suburb centroid against a same-named suburb 56 km away. Each of those is a bug a team usually meets in production; here they were handled on day one. It also gave me the shape of the problem within an afternoon: which rows lack coordinates, that the wind link is dead, that the station was off for half the year, where the judgement calls sit. And it made three independent first passes affordable, one of them for USD 0.81, so the choices that survived comparison are the ones I trust. The limits are as important. The first pass was wrong in ways only a person caught: the duration gap in this build, and in the other build an hourly-wind column that identifies the hour, a "centroid" that was the mean of real addresses, and report prose that contradicted its own numbers. It also cannot tell you it is finished; the other build reported success and fails a fresh clone. And it over-delivers structure, so someone has to decide what to keep. The agent is the fastest way to find out what the problem is. The engineer's job moves to deciding, verifying and cutting.
 
-Cost: the Qwen run cost USD 0.53 for 23.6 million tokens and the DeepSeek build USD 0.81 for 98.6 million (OpenRouter usage; the panel reports totals, not the prompt/completion split). The Opus 5.5 build that is this submission would have cost about USD 57 at API list price, and the independent review about USD 50. So the two cheap passes together cost under USD 1.50, the build about seventy times the cheap build that failed a clean clone, and the review about as much as the build. On this task, verification cost as much as construction. The Claude sessions ran on a subscription and the tool reports context-window size rather than billed tokens; those figures are given per session below.
+Cost: the Qwen run cost USD 0.53 for 23.6 million tokens and the DeepSeek build USD 0.81 for 98.6 million (OpenRouter usage; the panel reports totals, not the prompt/completion split). The Opus 5.5 build that is this submission would have cost about USD 57 at API list price, and the independent review and backtesting about USD 70. So the two cheap passes together cost under USD 1.50, the build about seventy times the cheap build that failed a clean clone, and the review somewhat more than the build. On this task, verification cost more than construction. The Claude sessions ran on a subscription; the token figures below are summed from the session transcripts and priced at list.
 
 ## Tooling
 
@@ -79,7 +79,7 @@ A full solution to all six challenge sections, built by a DeepSeek agent in abou
 
 ## Session 4: 7 and 8 November 2026, independent review (Claude Fable 5.1)
 
-Session usage to 8 November: about 205 model turns, 0.32 million output tokens, 55.9 million cached input tokens read, 1.65 million written; about USD 50 at list price, roughly the same as the build it reviewed.
+Session usage to the evening of 8 November: 326 model turns, 0.44 million output tokens, 82.8 million cached input tokens read, 2.21 million written; about USD 70 at list price, somewhat more than the build it reviewed.
 
 | # | Prompt | What the AI did |
 |---|--------|-----------------|
@@ -88,6 +88,8 @@ Session usage to 8 November: about 205 model turns, 0.32 million output tokens, 
 | 7 | `how would you go about doing this if 1) you use ai and 2) you don't` | Two 48-hour plans; the AI plan allocates most hours to verification. |
 | 8 | `Ai native Head Data Engineer` | Reviewed this repository the same way: clean-copy run (65 s, exit 0), 112 offline tests, ruff, design docs against code and run report. Wrote a side-by-side comparison and recommended this repository. |
 | 9 | `Yes, start` | Built the seven component commits in this repository and drafted this log. |
+| 10 | `Pass 1` | Listed every figure in the README, `DESIGN.md` and `ANONYMISATION.md`, recomputed each from a fresh clone's outputs and the live City service, and reported the three that did not hold (correction 9). |
+| 11 | `Pass 2` / `Ok. Apply it` | Attacked the anonymised file: group sizes, duration, wind-to-hour matching, and a read of the review queue. Found and, on my instruction, fixed the tenancy pattern (correction 10), with two regression tests. |
 
 ## Corrections: AI work I checked and rejected or changed
 
@@ -106,4 +108,4 @@ The brief asks for at least one case where the AI did work that I then corrected
 
 ## Note on commit history
 
-The code was written in one supervised session on 6 November and committed as seven component commits on 8 November, after the review above. The commit sequence reflects the structure of the work, not the minute-by-minute order in which it was produced. I would rather say that plainly than present a reconstructed history as if it were live.
+The code was written in one supervised session on 6 November and committed as seven component commits on 8 November, after the review above, followed the same day by documentation and correction commits as the checks in Session 4 found things to change. The commit sequence reflects the structure of the work, not the minute-by-minute order in which it was produced. I would rather say that plainly than present a reconstructed history as if it were live.
