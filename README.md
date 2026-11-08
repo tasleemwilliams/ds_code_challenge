@@ -1,6 +1,96 @@
 
 <img src="img/city_emblem.png" alt="City Logo"/>
 
+# Submission: Head: Data Engineer (FPR 36/26)
+
+This fork completes the Data Engineering sections of the challenge: **1, 2 and 5**. The original brief follows [below](#city-of-cape-town---data-science-unit-code-challenge).
+
+## Run it
+
+You need Python 3.9 or newer and internet access. This one command creates a virtual environment, installs the dependencies and runs everything, with no human interaction:
+
+```bash
+./run.sh
+```
+
+From an empty cache, it took 70 to 90 seconds in testing, mostly downloading, and peaked at about 650 MB of memory. It exits with a non-zero code if any validation fails.
+
+## What it produces
+
+Everything goes to `output/`, which git ignores because it includes resident-level data.
+
+| File | Contents |
+|---|---|
+| `run_report.json` | Timings, peak memory, conformance score, join counts and wind source |
+| `pipeline.log` | The full log of the run |
+| `city_hex_level8.geojson` | Section 1: hexagons extracted with S3 Select |
+| `restricted/service_requests_with_hex.csv.gz` | Section 2: every request with its hexagon and join status |
+| `wind_hourly.csv` | Section 5.2: hourly Atlantis wind, with the reason for each gap |
+| `restricted/subsample_with_wind.csv` | Sections 5.1 and 5.2: the subsample with wind |
+| `anonymised/service_requests_anonymised.csv` | Section 5.3: the anonymised output |
+| `restricted/manual_review_queue.csv` | Section 5.3: records held back for a person to review |
+
+To re-run only the anonymisation after a full run:
+
+```bash
+.venv/bin/python -m cct_pipeline.anonymise
+```
+
+## Results
+
+| Check | Result |
+|---|---|
+| S3 Select against `city-hex-polygons-8.geojson` | All 3,832 hexagons match |
+| Schema conformance | 1.0 (PASS) |
+| Join against `sr_hex.csv.gz` | All 941,634 requests match |
+| Join failures | 3 of 729,270 requests with coordinates (0.0004%), against a 0.1% threshold |
+| Subsample | 9,903 requests within 1 arc-minute of the Saxonsea centroid |
+| Wind | 4,499 requests (45.4%) have a reading. The rest are kept, with the reason for the gap |
+| Anonymisation | 7,848 records published and 2,055 queued for review |
+
+## Read next
+
+- [docs/DESIGN.md](docs/DESIGN.md): the reasoning and evidence behind each threshold and choice.
+- [docs/ANONYMISATION.md](docs/ANONYMISATION.md): why the output is anonymised, and the risk that remains.
+- [config/hex_schema.yaml](config/hex_schema.yaml): the schema used for the conformance score.
+- [config/pipeline.yaml](config/pipeline.yaml): all thresholds and settings.
+- [AI_log.md](AI_log.md): how AI assistance was used.
+
+Two points differ from what the brief anticipates:
+
+- **Wind data source:** the brief's wind link returned HTTP 404 from a command-line client throughout testing, so the run falls back to the same dataset on the City's open data portal. A copy is committed in case both are down.
+- **Sparse wind readings:** the Atlantis site has readings for only 26.5% of hours in 2020, so most of the year has no wind data.
+
+## Code layout
+
+| Path | Purpose |
+|---|---|
+| `cct_pipeline/extraction.py`, `schema_validation.py` | Section 1 |
+| `cct_pipeline/join.py` | Section 2 |
+| `cct_pipeline/subsample.py`, `wind.py`, `anonymise.py` | Sections 5.1, 5.2 and 5.3 |
+| `cct_pipeline/pipeline.py` | Runs the steps in order |
+| `cct_pipeline/downloads.py`, `reporting.py`, `service_requests.py`, `config.py` | Shared support |
+| `tests/` | Unit and integration tests |
+| `data/fallback/` | Committed copies used if live sources fail |
+
+## Run the tests
+
+```bash
+.venv/bin/python -m pip install -r requirements-dev.txt
+```
+
+```bash
+.venv/bin/python -m pytest
+```
+
+These make no network calls. To check the real S3 Select and wind portal as well:
+
+```bash
+.venv/bin/python -m pytest -m live
+```
+
+---
+
 # City of Cape Town - Data Science Unit Code Challenge
 
 ## Purpose
