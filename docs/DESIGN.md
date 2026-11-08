@@ -38,7 +38,7 @@ The thresholds are based on what each score means with these weights:
 - 0.1% is about 729 requests. The median hexagon with requests holds 160, the 90th percentile 986 and the busiest 3,815.
 - So losing one busy hexagon, or about five typical ones, stops the run. The likely systematic faults trip it, such as a truncated hexagon file or swapped coordinates, while a few bad records do not.
 
-**Missing coordinates: 35% of all requests.** These are not join failures, so they have their own check. The observed rate is 22.6%. A large rise would suggest a broken source file, which the failure rate alone would miss because its denominator would shrink.
+**Missing coordinates: 35% of all requests.** These are not join failures, so they have their own check. The observed rate is 22.6%, and it moves only between 19.7% and 24.8% from month to month, so 35% sits well above anything seen in 2020. The rate is a property of how residents report rather than of data quality (Urban Mobility is 65% missing, Water and Sanitation 10%), so it cannot be derived the way the join threshold is; the ceiling is empirical. A rise past it would suggest a broken source file, which the failure rate alone would miss because its denominator would shrink.
 
 ## Section 5.1: subsample
 
