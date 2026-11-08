@@ -1,0 +1,18 @@
+[project]
+name = "cct-pipeline"
+version = "1.0.0"
+description = "City of Cape Town data engineering code challenge: sections 1, 2 and 5"
+requires-python = ">=3.9"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+markers = ["live: calls the real challenge data sources (deselect with -m 'not live')"]
+addopts = "-m 'not live'"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
