@@ -42,7 +42,7 @@ The thresholds are based on what each score means with these weights:
 
 ## Section 5.1: subsample
 
-**Suburb: Saxonsea.** No official suburb is simply called Atlantis. Saxonsea has the most requests of the Atlantis-area suburbs checked (5,116), and 45.4% of the 9,903 requests within its radius have wind data. Atlantis Industrial is the only one named after the town, but yields only 445 requests, 28.8% with wind. The suburb is a config setting.
+**Suburb: Saxonsea.** No official suburb is simply called Atlantis. Saxonsea has the most requests of the Atlantis-area suburbs checked (5,116), and 45.4% of the 9,903 requests within its radius have wind data. Atlantis Industrial is the only one named after the town, but yields only about 445 requests, 28.8% with wind. The suburb is a config setting.
 
 **Centroid.** It is computed from the polygon in the City's "Official Planning Suburbs" service. Treating longitude and latitude as planar is sound here: over a few kilometres, ground distance is almost exactly a linear rescaling of those coordinates, and a centroid is unchanged by linear rescaling.
 
@@ -58,7 +58,7 @@ The thresholds are based on what each score means with these weights:
 
 **The failure is not specific to the wind file.** The Internet Archive's Wayback Machine holds no capture of the wind file, so I cannot show that this link ever worked. It does show the same download handler serving other datasets in May 2022, November 2022 and May 2025. On 6 November 2026, the two of those files I retested (from the November 2022 and May 2025 captures) and the handler with no file specified all returned 404. This suggests the download service itself is no longer available, so a fallback that only retries this link would not be enough.
 
-**Data gaps.** Atlantis has readings for only 2,324 of 8,784 hours (26.5%), and none from April to September. Of the 9,903 subsample requests, 4,499 (45.4%) have a reading. Gaps stay empty with the source's reason (`NoData`, `Down` or `<Samp`), because estimating across months would invent data.
+**Data gaps.** Atlantis has readings for only 2,324 of 8,784 hours (26.5%), and none from April to September or in December. Of the 9,903 subsample requests, 4,499 (45.4%) have a reading. Gaps stay empty with the source's reason (`NoData`, `Down` or `<Samp`), because estimating across months would invent data.
 
 **Coverage check: 25%.** A run stops below this, as a sign the join or time alignment has broken. It sits below the 28.8% seen for the least-covered suburb tested, so suburb choice alone should not trip it.
 

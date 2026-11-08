@@ -7,7 +7,7 @@ The input is 9,903 requests near Saxonsea: 7,848 were published and 2,055 queued
 | Route to a resident | Treatment |
 |---|---|
 | Notification and reference numbers could link to customer records | Removed |
-| Coordinates can point to one property | Removed. The H3 level 8 hexagon remains, with corners 520–531 m from its centre |
+| Coordinates can point to one property | Removed. The H3 level 8 hexagon remains, with corners 494–532 m from its centre |
 | Exact times could match a site visit | Creation and completion times floored to 6-hour local blocks. The two blocks together give duration to about 12 hours, which describes the service, not the resident |
 | Suburb can narrow a boundary-crossing hexagon to finer than 500 m | Removed |
 | Branch and section can reveal debt or enforcement teams | Removed |
