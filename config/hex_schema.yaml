@@ -1,0 +1,63 @@
+# Desired schema for one H3 resolution 8 feature extracted from the city GeoJSON.
+#
+# The conformance score is the weighted share of rule checks that pass, across all
+# features, from 0.0 to 1.0. It sets one of three statuses:
+#   score >= pass          PASS: continue
+#   warn <= score < pass   WARN: continue and log the failing rules
+#   score < warn           FAIL: stop the pipeline
+#
+# Weights reflect the harm a failure does downstream. The index and geometry identify a
+# hexagon, so they count most. The centroids are not used by the join, so they count least.
+name: city-hex-polygons-resolution-8
+version: 1
+
+thresholds:
+  pass: 0.99
+  warn: 0.95
+
+rules:
+  - id: feature_type
+    path: type
+    check: equals
+    value: Feature
+    weight: 1
+
+  - id: index_is_resolution_8_h3_cell
+    path: properties.index
+    check: h3_cell
+    resolution: 8
+    weight: 5
+
+  - id: index_is_unique
+    path: properties.index
+    check: unique
+    weight: 5
+
+  - id: centroid_lat_in_city_bounds
+    path: properties.centroid_lat
+    check: number_range
+    min: -34.5
+    max: -33.3
+    weight: 1
+
+  - id: centroid_lon_in_city_bounds
+    path: properties.centroid_lon
+    check: number_range
+    min: 18.2
+    max: 19.1
+    weight: 1
+
+  - id: centroid_matches_h3_centre
+    path: properties
+    check: centroid_matches_h3
+    tolerance_degrees: 0.00001
+    weight: 1
+
+  - id: geometry_is_closed_hexagon_in_city_bounds
+    path: geometry
+    check: hexagon_polygon
+    min_lat: -34.5
+    max_lat: -33.3
+    min_lon: 18.2
+    max_lon: 19.1
+    weight: 5
