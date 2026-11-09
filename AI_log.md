@@ -83,6 +83,8 @@ A full solution to all six challenge sections, built by a DeepSeek agent in abou
 
 Session usage to the evening of 8 November: 326 model turns, 0.44 million output tokens, 82.8 million cached input tokens read, 2.21 million written; about USD 70 at list price, somewhat more than the build it reviewed.
 
+Short prompts below are deliberate: they start a pass. The long ones are where the direction came from. Rows 12 to 14 were dictated on 8 November between rows 9 and 10 and are grouped at the end because they are a different kind of prompt: the strategy section above was written from them, not generated.
+
 | # | Prompt | What the AI did |
 |---|--------|-----------------|
 | 5 | `review this assessment independently - <challenge URL>` | Cloned the upstream brief, read every file of the DeepSeek build, ran it from a fresh clone, opened its dashboard in a browser, recomputed report figures from its processed data. Wrote a findings document. |
@@ -92,6 +94,9 @@ Session usage to the evening of 8 November: 326 model turns, 0.44 million output
 | 9 | `Yes, start` | Built the seven component commits in this repository and drafted this log. |
 | 10 | `Pass 1` | Listed every figure in the README, `DESIGN.md` and `ANONYMISATION.md`, recomputed each from a fresh clone's outputs and the live City service, and reported the three that did not hold (correction 9). |
 | 11 | `Pass 2` / `Ok. Apply it` | Attacked the anonymised file: group sizes, duration, wind-to-hour matching, and a read of the review queue. Found and, on my instruction, fixed the tenancy pattern (correction 10), with two regression tests. |
+| 12 | `I want to highlight my architectural strategy to the understanding of the problem, at least. So what I would say is that on the day I received the assessment, I read the GitHub details, and then I let Claude understand the brief and run one iteration to completion, and then I inspected that and kind of got a shape for the problem and a feel for the assessment. And then once I did that, I consciously put it onto other harnesses to test what the other models would find and how they would behave for this type of assessment. And that was done by Saturday morning. Then I had 3 examples of 3 different language models looking at the same assessment. I used agentic technology to review all 3 and come with a base of stability, and from there I'm working on as my baseline. ... It's a technique that I'm using to understand the problem space before I dive deep into it. Now I'm in the dive deep part of it.` | Wrote the three dated paragraphs of the strategy section from this. |
+| 13 | `For me, in the beginning part of the technique or assessment, it's not to overstipulate, it's to see what a model can do without doing it. After that is when you become a lot more active in terms of questioning the answer. So for my AI native role, it's more about the spec and then verification` | Wrote the "principle" paragraph and the paragraph on giving the Friday agent very little direction. |
+| 14 | `So both qwen and deepseek produce worse results, 70% of the work was correct but struggling on deep reasoning. It was flash models as opposed to opus 5.5` | Wrote the model-comparison paragraph from this, with the specifics and the two cautions taken from the review findings on both builds. |
 
 ## Corrections: AI work I checked and rejected or changed
 
